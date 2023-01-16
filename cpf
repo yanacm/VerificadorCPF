@@ -1,0 +1,169 @@
+;verificar de digitos
+
+
+org 100h
+
+jmp inicio
+msg DB "os digitos verificadores do meu cpf sao:",24h
+inicio: lea dx,msg
+        mov ah,09h
+        int 21h
+
+mov dx,0h
+
+mov al,09
+mov bl,10
+mul bl
+add dx,ax
+
+mov al,09
+dec bl
+mul bl
+add dx,ax
+
+mov al,04
+dec bl
+mul bl
+add dx,ax
+
+mov al,06
+dec bl
+mul bl
+add dx,ax
+
+mov al,05
+dec bl
+mul bl
+add dx,ax
+
+mov al,05
+dec bl
+mul bl
+add dx,ax
+
+mov al,06
+dec bl
+mul bl
+add dx,ax
+
+mov al,05
+dec bl
+mul bl
+add dx,ax
+
+mov al,03
+dec bl
+mul bl
+add dx,ax
+
+; div
+mov ax,dx
+mov bl,0bh
+div bl
+
+; restricao
+cmp ah,2
+jl  igual
+jmp diferente
+
+igual:
+mov bl,0
+jmp exit
+
+diferente:
+sub bl,ah
+
+; mostrar 
+exit:
+mov ah,02h
+mov dl,30h
+add dl,bl
+int 21h
+
+; seg dig
+mov ch,00
+mov ch,bl
+
+; zerando
+mov al,00
+mov dx,00
+mov dh,00
+mov bl,00
+
+;; cpf de novo
+mov al,09
+mov bl,11
+mul bl
+add dx,ax
+
+mov al,09
+dec bl
+mul bl
+add dx,ax
+
+mov al,04
+dec bl
+mul bl
+add dx,ax
+
+mov al,06
+dec bl
+mul bl
+add dx,ax
+
+mov al,05
+dec bl
+mul bl
+add dx,ax
+
+mov al,05
+dec bl
+mul bl
+add dx,ax
+
+mov al,06
+dec bl
+mul bl
+add dx,ax
+
+mov al,05
+dec bl
+mul bl
+add dx,ax
+
+mov al,03
+dec bl
+mul bl
+add dx,ax
+
+
+;; penultimo digito
+mov al,ch
+dec bl
+mul bl
+add dx,ax
+
+; div
+mov ax,dx
+mov bl,0bh
+div bl
+
+; restricao
+cmp ah,2
+jl  igual2
+jmp diferente2
+
+igual2:
+mov bl,0
+jmp exit2
+
+diferente2:
+sub bl,ah
+
+exit2:
+mov ah,02h
+mov dl,30h
+add dl,bl
+int 21h
+
+ret
